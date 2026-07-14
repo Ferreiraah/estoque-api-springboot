@@ -40,12 +40,17 @@ public class EquipamentoController {
     }
 //
     //5- Lista todos os equipamentos listados ate entao.
-    @GetMapping
-    public List<Equipamento> listarTodos(){
-        return equipamentoService.listarTodos();
+@GetMapping
+public List<Equipamento> listarEquipamentos(@RequestParam(required = false) StatusEquipamento status) {
+    if (status != null) {
+        // Se a URL veio com filtro (ex: ?status=MANUTENCAO), chama o metodo novo do Service
+        return equipamentoService.buscarPorStatus(status);
     }
-//
-    //6- Busca um equipamento especifico pelo QR Code digitado na URL
+    // Se a URL veio limpa, lista o galpao inteiro
+    return equipamentoService.listarTodos();
+}
+//2
+    //6- Busca um equipamento especifico pelo QRCode digitado na URL
     @GetMapping("/{idQrCode}")
     public Equipamento buscarPorId(@PathVariable String idQrCode){
         return equipamentoService.buscarPorId(idQrCode);
@@ -62,6 +67,8 @@ public class EquipamentoController {
     public Equipamento atualizarStatus(@PathVariable String idQrCode,@RequestParam StatusEquipamento novoStatus){
         return equipamentoService.atualizarStatus(idQrCode, novoStatus);
     }
+
+
 
     //~~~~~~~~~~~~~~~~~~~ Usando um PUT para cada coisa ~~~~~~~~~~~~~~~~~~~//
     // Atualiza um Cabo inteiro

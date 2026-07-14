@@ -35,7 +35,10 @@ As rotas de criação e edição completa são separadas por domínio para garan
 - `/api/equipamentos/audio`
 - `/api/equipamentos/estrutura`
 
-## ⚙️ Como Rodar o Projeto Localmente
-1. Clone este repositório: `git clone https://github.com/SeuUsuario/seu-repositorio.git`
-2. Configure as credenciais do PostgreSQL no arquivo `application.properties`.
-3. Execute a aplicação através da IDE ou via Maven.
+## 🚀 Novidades e Evolução da Arquitetura
+
+* **Módulo de Logística (Eventos):** Implementação de um "Carrinho de Compras" utilizando o relacionamento `@ManyToMany` do Hibernate. Agora o sistema gerencia a saída e o retorno de equipamentos para shows e eventos específicos.
+* **Automação de Status:** O motor do sistema foi aprimorado com inteligência de negócio. Ao alocar um equipamento em uma OS (Ordem de Serviço), o status transita automaticamente de `DISPONIVEL` para `EM_USO`.
+* **Controle de Avarias:** Rota específica para devolução de peças estragadas. O sistema aceita o parâmetro dinâmico via URL (`?statusRetorno=MANUTENCAO`) para isolar cabos e painéis de LED que precisam de reparo na bancada.
+* **Travas de Segurança (Anti-Bug):** Validações nativas no `Service` que impedem a alocação de equipamentos danificados em novos eventos e bloqueiam a criação de OS duplicadas na agenda.
+* **Filtros Avançados:** Habilitada no Controller, permitindo consultar cirurgicamente o banco de dados filtrando itens por status diretamente pela URL.
