@@ -20,7 +20,8 @@ public class Cabo extends Equipamento {
     @Positive(message = "O tamanho do cabo precisa ser maior que 0!")
     private double tamanhoMetro;
 
-    private Cabo(String idQrCode, String nome, String tipo, double tamanhoMetro, StatusEquipamento status ){
-        super(idQrCode, nome, status);
+    private Cabo(String idQrCode, String nome, String tipo, double tamanhoMetro, StatusEquipamento status,  String imagemUrl ) {
+        super(idQrCode, nome, status, imagemUrl);
     }
+
 }

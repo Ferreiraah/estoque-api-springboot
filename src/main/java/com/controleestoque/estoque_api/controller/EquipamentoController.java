@@ -70,26 +70,61 @@ public class EquipamentoController {
         cabo.setIdQrCode(idQrCode); // Garante que o objeto vai usar o ID que veio na URL
         return equipamentoService.atualizar(cabo);
     }
-
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
     // Atualiza uma Iluminação inteira
     @PutMapping("/iluminacao/{idQrCode}")
     public Equipamento atualizarIluminacao(@PathVariable String idQrCode, @Valid @RequestBody Iluminacao iluminacao) {
         iluminacao.setIdQrCode(idQrCode); // Garante que o objeto vai usar o ID que veio na URL
         return equipamentoService.atualizar(iluminacao);
     }
-
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
     // Atualiza um Áudio inteiro
     @PutMapping("/audio/{idQrCode}")
     public Equipamento atualizarAudio(@PathVariable String idQrCode,@Valid @RequestBody Audio audio) {
         audio.setIdQrCode(idQrCode); // Garante que o objeto vai usar o ID que veio na URL
         return equipamentoService.atualizar(audio);
     }
-
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
     // Atualiza uma Estrutura inteira
     @PutMapping("/estrutura/{idQrCode}")
     public Equipamento atualizarEstrutura(@PathVariable String idQrCode, @Valid @RequestBody Estrutura estrutura) {
         estrutura.setIdQrCode(idQrCode); // Garante que o objeto vai usar o ID que veio na URL
         return equipamentoService.atualizar(estrutura);
+    }
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+    //Cadastrar PainelLed
+    @PostMapping("/painel-led")
+    public Equipamento cadastrarPainelLed(@Valid @RequestBody PainelLed painel){
+        return equipamentoService.cadastrar(painel);
+    }
+    //Atualizar PainelLed
+    @PutMapping("/painel-led/{idQrCode}")
+    public Equipamento atualizarPainelLed(@PathVariable String idQrCode, @Valid @RequestBody PainelLed painel){
+        // 1. Pega o ID da URL e "carimba" na nossa placa nova
+        painel.setIdQrCode(idQrCode);
+        // 2. Manda a placa completa (passando apenas 1 parâmetro)
+        return equipamentoService.atualizar(painel);
+    }
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+
+    // GUICHÊ DE FILTRO 1: Busca apenas pelo Status
+    // Exemplo de uso: GET http://localhost:8080/api/equipamentos/status/MANUTENCAO
+    @GetMapping("/status/{status}")
+    public List<Equipamento> buscarPorStatus(@PathVariable StatusEquipamento status){
+        return equipamentoService.buscarPorStatus(status);
+    }
+    // GUICHÊ DE FILTRO 2: Busca por uma palavra no nome
+    // Exemplo de uso: GET http://localhost:8080/api/equipamentos/nome/parled
+    @GetMapping("/nome/{nome}")
+    public List<Equipamento> buscarPorNome(@PathVariable String nome){
+        return equipamentoService.buscarPorNome(nome);
+    }
+    // GUICHÊ DE FILTRO 3: Busca Combinada usando Parâmetros de URL (?chave=valor)
+    // Exemplo de uso: GET http://localhost:8080/api/equipamentos/busca?status=DISPONIVEL&nome=cabo
+    @GetMapping("/busca")
+    public List<Equipamento> buscaAvancada(@RequestParam StatusEquipamento status,
+                                           @RequestParam String nome){
+        return equipamentoService.buscarPorStatusENome(status, nome);
     }
 
 

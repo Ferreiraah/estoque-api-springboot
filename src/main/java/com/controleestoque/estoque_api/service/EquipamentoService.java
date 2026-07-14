@@ -58,6 +58,23 @@ public class EquipamentoService {
         return equipamentoRepository.save(equipamento);
     }
 
+    //7 - Filtro por Status
+    public List<Equipamento> buscarPorStatus(StatusEquipamento status){
+        return equipamentoRepository.findByStatus(status);
+    }
+
+    //8 - Filtro por Palavra-chave no nome
+    public List<Equipamento> buscarPorNome(String nome){
+        return equipamentoRepository.findByNomeContainingIgnoreCase(nome);
+    }
+
+    //9 - Filtro Combinado (Status + nome)
+    public List<Equipamento> buscarPorStatusENome (StatusEquipamento status, String nome){
+        return equipamentoRepository.findByStatusAndNomeContainingIgnoreCase(status, nome);
+    }
+
+
+
 
 
 

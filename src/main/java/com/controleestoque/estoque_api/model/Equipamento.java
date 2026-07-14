@@ -24,4 +24,7 @@ public abstract class Equipamento {
     @NotNull(message = "O status do equipamento e obrigatorio!")
     @Enumerated(EnumType.STRING)
     private StatusEquipamento status;
+
+    // Link da foto do equipamento para aparecer na lojinha
+    private String imagemUrl;
 }

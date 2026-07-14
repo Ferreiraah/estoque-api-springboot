@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 public class Iluminacao extends Equipamento {
 
-    public Iluminacao(String idQrCode, String nome, StatusEquipamento status) {
-        super(idQrCode, nome, status);
+    public Iluminacao(String idQrCode, String nome, StatusEquipamento status, String imagemUrl) {
+        super(idQrCode, nome, status, imagemUrl);
     }
 }

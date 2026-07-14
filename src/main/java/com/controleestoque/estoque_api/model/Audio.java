@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 public class Audio extends Equipamento {
 
-    public Audio(String idQrCode, String nome, StatusEquipamento status) {
-        super(idQrCode, nome, status);
+    public Audio(String idQrCode, String nome, StatusEquipamento status, String imagemUrl) {
+        super(idQrCode, nome, status, imagemUrl);
     }
 }
