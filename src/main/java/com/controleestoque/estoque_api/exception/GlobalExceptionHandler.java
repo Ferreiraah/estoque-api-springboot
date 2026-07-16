@@ -51,4 +51,17 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(corpoErro, HttpStatus.BAD_REQUEST);
     }
 
+    // Avisa que quando uma regra de negócio for quebrada (ex: Trava de Segurança), este metodo entra em ação
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<Map<String, Object>> handleRegrasDeNegocio(RuntimeException ex){
+
+        Map<String, Object> corpoErro = new HashMap<>();
+        corpoErro.put("timestamp", LocalDateTime.now());
+        corpoErro.put("status", HttpStatus.BAD_REQUEST.value()); // Número 400
+        corpoErro.put("erro", "Violação de Regra de Negócio");
+        corpoErro.put("mensagem", ex.getMessage());
+
+        return new ResponseEntity<>(corpoErro, HttpStatus.BAD_REQUEST);
+    }
+
 }
