@@ -1,5 +1,7 @@
 package com.controleestoque.estoque_api.model;
 
+import com.controleestoque.estoque_api.enums.CategoriaEquipamento;
+import com.controleestoque.estoque_api.enums.StatusEquipamento;
 import jakarta.persistence.Entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -11,7 +13,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 public class Audio extends Equipamento {
 
-    public Audio(String idQrCode, String nome, StatusEquipamento status, String imagemUrl) {
-        super(idQrCode, nome, status, imagemUrl);
+    public Audio(String idQrCode, String nome, StatusEquipamento status, String imagemUrl, CategoriaEquipamento categoria) {
+        super(idQrCode, nome, status, categoria, imagemUrl);
     }
 }

@@ -1,5 +1,6 @@
 package com.controleestoque.estoque_api.model;
 
+import com.controleestoque.estoque_api.enums.StatusEvento;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -28,13 +29,15 @@ public class Evento{
     @NotNull(message = "A data de devolucao e obrigatoria!")
     private LocalDate dataDevolucao;
 
-    // O Spring cria uma tabela invisível só para gerenciar qual equipamento foi pra qual evento.
-    @ManyToMany
-    @JoinTable(
-            name = "evento_equipamento", // Nome da tabela que vai unir os dois mundos
-            joinColumns = @JoinColumn(name = "evento_id"),
-            inverseJoinColumns = @JoinColumn(name = "equipamento_id")
-    )
-    private List<Equipamento> equipamentos = new ArrayList<>();
+    @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ItemEvento> itens = new ArrayList<>();
+
+    @Enumerated(EnumType.STRING)
+    private StatusEvento status = StatusEvento.EM_PROGRESSO;
+
+    @Column(columnDefinition = "TEXT")
+    private String observacoes;
+
+
 
 }

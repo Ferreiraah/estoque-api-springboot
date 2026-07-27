@@ -3,7 +3,7 @@ package com.controleestoque.estoque_api.service;
 
 import com.controleestoque.estoque_api.exception.EquipamentoNaoEncontradoException;
 import com.controleestoque.estoque_api.model.Equipamento;
-import com.controleestoque.estoque_api.model.StatusEquipamento;
+import com.controleestoque.estoque_api.enums.StatusEquipamento;
 import com.controleestoque.estoque_api.repository.EquipamentoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

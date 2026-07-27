@@ -1,4 +1,4 @@
-package com.controleestoque.estoque_api.model;
+package com.controleestoque.estoque_api.enums;
 
 public enum StatusEquipamento {
     DISPONIVEL,

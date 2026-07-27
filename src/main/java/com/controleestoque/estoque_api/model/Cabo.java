@@ -1,6 +1,8 @@
 package com.controleestoque.estoque_api.model;
 
 
+import com.controleestoque.estoque_api.enums.CategoriaEquipamento;
+import com.controleestoque.estoque_api.enums.StatusEquipamento;
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
@@ -20,8 +22,8 @@ public class Cabo extends Equipamento {
     @Positive(message = "O tamanho do cabo precisa ser maior que 0!")
     private double tamanhoMetro;
 
-    private Cabo(String idQrCode, String nome, String tipo, double tamanhoMetro, StatusEquipamento status,  String imagemUrl ) {
-        super(idQrCode, nome, status, imagemUrl);
+    private Cabo(String idQrCode, String nome, String tipo, double tamanhoMetro, StatusEquipamento status, String imagemUrl, CategoriaEquipamento categoria ) {
+        super(idQrCode, nome, status, categoria, imagemUrl);
     }
 
 }

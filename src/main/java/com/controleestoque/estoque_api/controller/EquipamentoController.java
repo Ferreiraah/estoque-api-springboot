@@ -1,5 +1,6 @@
 package com.controleestoque.estoque_api.controller;
 
+import com.controleestoque.estoque_api.enums.StatusEquipamento;
 import com.controleestoque.estoque_api.model.*;
 import com.controleestoque.estoque_api.service.EquipamentoService;
 import jakarta.validation.Valid;

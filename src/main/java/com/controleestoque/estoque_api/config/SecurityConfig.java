@@ -1,58 +1,63 @@
 package com.controleestoque.estoque_api.config;
 
 
+import com.controleestoque.estoque_api.security.SecurityFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
+    @Autowired
+    private SecurityFilter securityFilter;
+
     //1 - O filtro da porta
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(csrf -> csrf.disable()) // Desliga a proteção para conseguirmos usar o POST/PUT
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll() // Manual liberado
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        return httpSecurity
+                // Desativa a proteção contra CSRF porque a nossa API é REST e vamos usar Tokens.
+                .csrf(csrf -> csrf.disable())
 
-                        // REGRAS DO CRACHÁ:
-                        // TÉCNICOS E GERENTES: Podem consultar as listas (Metodo GET)
-                        .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/**").hasAnyRole("GERENTE", "TECNICO")
+                // Define que a nossa API não vai guardar "sessão" na memória (STATELESS).
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-                        // SÓ GERENTE: Pode adicionar, alterar e deletar (POST, PUT, DELETE, PATCH)
-                        .requestMatchers("/api/**").hasRole("GERENTE")
+                // Aqui estão as regras de acesso das rotas.
+                .authorizeHttpRequests(authorize -> authorize
+                        // Libera geral (permitAll) para qualquer requisição POST nestas duas rotas.
+                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
 
+                        // Para QUALQUER outra rota da API, o usuário precisa estar autenticado (authenticated).
                         .anyRequest().authenticated()
                 )
-                .httpBasic(basic -> {});
-
-        return http.build();
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
     }
-
-    //2 - Crachas (Usuarios Provisorios)
 
     @Bean
-    public UserDetailsService users(){
-        UserDetails chefe = User.builder()
-                .username("pitoco")
-                .password("{noop}senha123")
-                .roles("GERENTE")
-                .build();
-
-        UserDetails tecnico = User.builder()
-                .username("freela")
-                .password("{noop}montagem")
-                .roles("TECNICO")
-                .build();
-
-                return new InMemoryUserDetailsManager(chefe, tecnico);
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+
 }

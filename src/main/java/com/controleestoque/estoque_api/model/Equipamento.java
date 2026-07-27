@@ -1,6 +1,8 @@
 package com.controleestoque.estoque_api.model;
 
 
+import com.controleestoque.estoque_api.enums.CategoriaEquipamento;
+import com.controleestoque.estoque_api.enums.StatusEquipamento;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -24,6 +26,9 @@ public abstract class Equipamento {
     @NotNull(message = "O status do equipamento e obrigatorio!")
     @Enumerated(EnumType.STRING)
     private StatusEquipamento status;
+
+    @Enumerated(EnumType.STRING)
+    private CategoriaEquipamento categoria;
 
     // Link da foto do equipamento para aparecer na lojinha
     private String imagemUrl;

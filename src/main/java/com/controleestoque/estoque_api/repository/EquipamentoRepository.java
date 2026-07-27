@@ -1,7 +1,7 @@
 package com.controleestoque.estoque_api.repository;
 
 import com.controleestoque.estoque_api.model.Equipamento;
-import com.controleestoque.estoque_api.model.StatusEquipamento;
+import com.controleestoque.estoque_api.enums.StatusEquipamento;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

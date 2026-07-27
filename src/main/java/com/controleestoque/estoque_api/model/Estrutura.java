@@ -1,5 +1,7 @@
 package com.controleestoque.estoque_api.model;
 
+import com.controleestoque.estoque_api.enums.CategoriaEquipamento;
+import com.controleestoque.estoque_api.enums.StatusEquipamento;
 import jakarta.persistence.Entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,8 +16,8 @@ public class Estrutura extends Equipamento {
     private String material;
     private double dimensaoMetros;
 
-    private Estrutura(String idQrCode, String nome, String material, double dimensaoMetros, StatusEquipamento status, String imagemUrl ) {
-        super(idQrCode, nome, status, imagemUrl);
+    private Estrutura(String idQrCode, String nome, String material, double dimensaoMetros, StatusEquipamento status, String imagemUrl, CategoriaEquipamento categoria ) {
+        super(idQrCode, nome, status, categoria, imagemUrl);
         this.material = material;
         this.dimensaoMetros = dimensaoMetros;
     }
