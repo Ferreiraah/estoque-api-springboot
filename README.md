@@ -16,6 +16,7 @@ No setor de produção de eventos, o controle de entrada e saída de equipamento
 - **Spring Security** (Autenticação e Autorização RBAC)
 - **Springdoc OpenAPI / Swagger UI** (Documentação Interativa)
 - **Maven** (Gerenciamento de dependências)
+- **JWT** (JSON Web Token) - Autenticação Stateless
 
 ## 🏗️ Arquitetura e Padrões Aplicados
 - **Arquitetura em Camadas:** Divisão clara entre `Controller`, `Service` e `Repository`.
@@ -33,6 +34,7 @@ A API possui um filtro de segurança (`SecurityFilterChain`) que bloqueia rotas 
 * **Automação de Status:** Inteligência de negócio no motor da API. Ao alocar um equipamento em uma OS, o status transita automaticamente de `DISPONIVEL` para `EM_USO`.
 * **Controle de Avarias:** Rota específica para devolução de peças estragadas. O sistema aceita parâmetro dinâmico via URL (`?statusRetorno=MANUTENCAO`) para isolar peças que precisam de reparo na bancada.
 * **Travas de Segurança (Anti-Bug):** Validações nativas no `Service` que impedem a alocação de equipamentos danificados em novos eventos e bloqueiam ações não permitidas.
+* **Motor Anti-Overbooking:** Implementação de trava de segurança a nível de serviço que valida a disponibilidade real do inventário em tempo real, impedindo alocações duplicadas ou indisponíveis através de exceções customizadas (GlobalExceptionHandler).
 
 ## 🔌 Endpoints e Documentação (Swagger)
 A API dispensa o uso exclusivo do Postman para testes. Toda a documentação e mapeamento de rotas é gerada automaticamente pelo **Swagger**.
@@ -44,6 +46,6 @@ Para testar a API com uma interface gráfica interativa, rode o projeto e acesse
 - `GET /api/equipamentos/{idQrCode}` - Busca a ficha completa de um equipamento.
 - `DELETE /api/equipamentos/{idQrCode}` - Dá baixa (exclui) um equipamento.
 - `PATCH /api/equipamentos/{idQrCode}/status` - Atualização rápida de status.
-- `POST /api/equipamentos/painel-led` (Separado por domínio: cabo, estrutura, iluminacao, audio).
-- `POST /api/eventos` - Criação de Ordem de Serviço.
+- `POST /api/equipamentos/painel-led` - (Separado por domínio: cabo, estrutura, iluminacao, audio).
+- `POST /api/eventos` - Criação de Ordem de Serviço (via EventoDTO para validação robusta).
 - `POST /api/eventos/{eventoId}/equipamentos/{idQrCode}` - Aloca a peça no caminhão do evento.
