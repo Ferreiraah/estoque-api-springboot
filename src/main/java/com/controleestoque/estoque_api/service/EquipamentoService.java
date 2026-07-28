@@ -73,10 +73,4 @@ public class EquipamentoService {
         return equipamentoRepository.findByStatusAndNomeContainingIgnoreCase(status, nome);
     }
 
-
-
-
-
-
-
 }

@@ -1,5 +1,6 @@
 package com.controleestoque.estoque_api.controller;
 
+import com.controleestoque.estoque_api.dto.EventoDTO;
 import com.controleestoque.estoque_api.model.Evento;
 import com.controleestoque.estoque_api.enums.StatusEquipamento;
 import com.controleestoque.estoque_api.service.EventoService;
@@ -22,8 +23,9 @@ public class EventoController {
     // Exemplo: POST http://localhost:8080/api/eventos
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Evento criarEvento(@Valid @RequestBody Evento evento){
-        return eventoService.criarEvento(evento);
+    public Evento criarEvento(@Valid @RequestBody EventoDTO eventoDTO){
+
+        return eventoService.criarEvento(eventoDTO);
     }
 
     // 2. Ver a agenda (LISTAR TODOS OS EVENTOS)
@@ -69,6 +71,24 @@ public class EventoController {
         return ResponseEntity.ok(eventoAtualizado);
     }
 
+    //5. Descarregar o caminhao (Devolucao de equipamentos em lote)
+    @PostMapping("/{id}/equipamentos/lote/devolucao")
+    public ResponseEntity<Evento> devolverEquipamentosEmLote(
+            @PathVariable Long id,
+            @RequestBody List<String> idQrCodes){
+        Evento eventoAtualizado = eventoService.devolverEquipamentosEmLote(id, idQrCodes);
 
+        return ResponseEntity.ok(eventoAtualizado);
+    }
+
+    //6. Fechar a OS do Evento
+    @PatchMapping("/{id}/finalizado")
+    public ResponseEntity<Evento> finalizarEvento(@PathVariable Long id){
+
+        Evento eventoFinalizado = eventoService.finalizarEvento(id);
+
+        //Retorna um 200 OK
+        return ResponseEntity.ok(eventoFinalizado);
+    }
 
 }

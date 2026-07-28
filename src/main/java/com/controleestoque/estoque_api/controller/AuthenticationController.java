@@ -1,6 +1,7 @@
 package com.controleestoque.estoque_api.controller;
 
 
+import com.controleestoque.estoque_api.dto.LoginResponseDTO;
 import com.controleestoque.estoque_api.dto.RegisterDTO;
 import com.controleestoque.estoque_api.model.Usuario;
 import com.controleestoque.estoque_api.dto.AuthenticationDTO;
@@ -60,6 +61,6 @@ public class AuthenticationController {
         var token = tokenService.generateToken((Usuario) auth.getPrincipal());
 
         // Devolve o token na resposta.
-        return ResponseEntity.ok(token);
+        return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 }

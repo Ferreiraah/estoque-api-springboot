@@ -58,7 +58,7 @@ public List<Equipamento> listarEquipamentos(@RequestParam(required = false) Stat
     }
 //
     //7- Deleta o equipamento pelo seu ID
-    @DeleteMapping("{idQrCode}")
+    @DeleteMapping("/{idQrCode}")
     public void deletar(@PathVariable String idQrCode){
         equipamentoService.deletar(idQrCode);
     }

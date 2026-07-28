@@ -19,6 +19,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -57,6 +62,29 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    //2 Bean que define as regras do CORS
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+
+        //Nao esquecer de colocar o link real do Front quando for para a producao e substituir esse *
+        configuration.setAllowedOrigins(Arrays.asList("*"));
+
+        // Quais métodos HTTP o Front pode usar
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+
+        // Quais cabeçalhos estão liberados (Importantíssimo liberar o Authorization para o JWT passar)
+        configuration.setAllowedHeaders(Arrays.asList("Authorization","Content-Type"));
+
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+
+        // Aplica essa regra para todas as rotas da API
+        source.registerCorsConfiguration("/**", configuration);
+
+        return source;
     }
 
 
